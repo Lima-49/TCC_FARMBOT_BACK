@@ -1,10 +1,11 @@
 from flask import jsonify
 import pyodbc
 from repository.client_repository import ClienteRepository
-
+from config import Config
 class ClientApp:
     def __init__(self):
-        self.connection_string = "Driver={ODBC Driver 18 for SQL Server};Server=LAPTOP_VITOR\\SQLEXPRESS;Database=FARM_BOT;Trusted_Connection=yes;TrustServerCertificate=yes;"
+        self.config = Config()
+        self.connection_string = self.config.connection_string
         self.repo = ClienteRepository(self.connection_string)
     
     def create_new_client(self, client):

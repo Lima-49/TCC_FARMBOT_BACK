@@ -1,6 +1,5 @@
 import pyodbc
 from models.client_model import Cliente
-from datetime import datetime
 
 class ClienteRepository:
     def __init__(self, connection_string):

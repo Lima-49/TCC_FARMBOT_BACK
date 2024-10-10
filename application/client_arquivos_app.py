@@ -2,12 +2,14 @@ from flask import jsonify
 import pyodbc
 from repository.client_arquivos_repository import ClientDadosRepository
 from config import Config
+from google.cloud import storage
 
 class ClientesArquivos:
     def __init__(self):
         self.config = Config()
         self.connection_string = self.config.connection_string
         self.repo = ClientDadosRepository(self.connection_string)
+        self.bucket_name = self.config.bucket_name
 
     def add_new_file(self, client_arquivo):
         try:
@@ -85,4 +87,24 @@ class ClientesArquivos:
         except Exception as e:
             return jsonify({'error': 'Ocorreu um erro desconhecido ao deletar o arquivo', 'details': str(e)}), 500
 
+    def upload_file_to_gcp(self, file, file_name):
+        storage_client = storage.Client()
+        bucket = storage_client.bucket(self.bucket_name)
+        blob = bucket.blob(file_name)
+        blob.upload_from_file(file)
+        return blob.public_url
 
+    def add_file_from_request(self, client_id, file):
+        
+        if file.filename == '':
+            return jsonify({'error': 'Nome de arquivo inválido'}), 400
+        
+        if file and (file.filename.endswith('.csv') or file.filename.endswith('.xlsx')):
+            try:
+                file_name = f"{client_id}/{file.filename}"
+                file_url = self.upload_file_to_gcp(file, file_name)
+                return {'message': 'Arquivo salvo com sucesso!', 'url': file_url}
+            except Exception as e:
+                return jsonify({'error': 'Erro ao fazer o upload', 'details': str(e)}), 500
+        else:
+            return jsonify({'error': 'Formato de arquivo não suportado. Envie um CSV ou Excel'}), 400

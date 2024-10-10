@@ -18,3 +18,6 @@ class IClientesArquivosApp:
     
     def delete_file_from_id(self, file_id):
         return self.client_arquivos.delete_file_from_id(file_id)
+    
+    def add_file_from_request(self, client_id, file):
+        return self.client_arquivos.add_file_from_request(client_id, file)

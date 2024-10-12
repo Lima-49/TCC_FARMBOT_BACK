@@ -45,8 +45,8 @@ class ClienteRepository:
                     'email': row[5],
                     'senha_login': row[6]
                 }
-                cliente = Cliente.from_dict(cliente_data)
-                clientes.append(cliente)
+                #cliente = Cliente.from_dict(cliente_data)
+                clientes.append(cliente_data)
             return clientes
 
     def get_client_by_id(self, client_id):

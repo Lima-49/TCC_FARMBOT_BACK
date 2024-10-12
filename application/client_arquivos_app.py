@@ -88,11 +88,11 @@ class ClientesArquivos:
             return jsonify({'error': 'Ocorreu um erro desconhecido ao deletar o arquivo', 'details': str(e)}), 500
 
     def upload_file_to_gcp(self, file, file_name):
-        storage_client = storage.Client()
+        storage_client = storage.Client.from_service_account_json(self.config.credentials_path)
         bucket = storage_client.bucket(self.bucket_name)
         blob = bucket.blob(file_name)
         blob.upload_from_file(file)
-        return blob.public_url
+        return blob.public_url.replace("googleapis", "cloud.google")
 
     def add_file_from_request(self, client_id, file):
         

@@ -1,8 +1,8 @@
 class ClientesDados:
-    def __init__(self, id_arquivo=None, id_cliente=None, descricao_arquivo=None, url_bucket=None, nome_arquivo=None):
-        self.id_arquivo = id_arquivo,
-        self.id_cliente = id_cliente,
-        self.descricao_arquivo = descricao_arquivo,
+    def __init__(self, id_cliente=None, descricao_arquivo=None, url_bucket=None, nome_arquivo=None, id_arquivo=None):
+        self.id_arquivo = id_arquivo
+        self.id_cliente = id_cliente
+        self.descricao_arquivo = descricao_arquivo
         self.url_bucket = url_bucket
         self.nome_arquivo = nome_arquivo
         

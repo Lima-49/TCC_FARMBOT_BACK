@@ -33,7 +33,7 @@ class ClientDadosRepository:
                 FROM 
                     CLIENTES_ARQUIVOS
                 WHERE
-                    CLIENT_ID = ?
+                    ID_CLIENTE = ?
                 """,(client_id)
             )
             
@@ -48,10 +48,10 @@ class ClientDadosRepository:
                     'nome_arquivo': row[4]
                 }
                 
-                clientes_arquivos = ClientesDados.from_dict(client_data)
+                #clientes_arquivos = ClientesDados.from_dict(client_data)
                 arquivos.append(client_data)
             
-            return clientes_arquivos
+            return arquivos
         
     def get_file_from_id(self, file_id):
         with self.connect() as conn:

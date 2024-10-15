@@ -19,5 +19,5 @@ class IClientesApp:
     def delete_client_by_id(self, client_id):
         return self.client_app.delete_client_by_id(client_id)
 
-    def get_client_by_email(self, client_email):
-        return self.client_app.get_client_by_email(client_email)
+    def autentificar_login(self, login):
+        return self.client_app.autentificar_login(login)

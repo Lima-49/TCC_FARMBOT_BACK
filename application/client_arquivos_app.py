@@ -103,7 +103,7 @@ class ClientesArquivos:
             try:
                 file_name = f"{client_id}/{file.filename}"
                 file_url = self.upload_file_to_gcp(file, file_name)
-                return {'message': 'Arquivo salvo com sucesso!', 'url': file_url}
+                return jsonify({'message': 'Arquivo salvo com sucesso!', 'url': file_url}), 200
             except Exception as e:
                 return jsonify({'error': 'Erro ao fazer o upload', 'details': str(e)}), 500
         else:

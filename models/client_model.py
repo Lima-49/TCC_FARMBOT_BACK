@@ -1,5 +1,3 @@
-import bcrypt
-
 class Cliente:
     def __init__(self, nome=None, sobrenome=None, data_nascimento=None, cpf=None, email=None, senha_login=None, client_id=None):
         self.client_id = client_id
@@ -21,10 +19,3 @@ class Cliente:
             email=data.get('email'),
             senha_login=data.get('senha_login')
         )
-
-    def hash_senha(self, senha):
-        # Gera um salt aleatório
-        salt = bcrypt.gensalt()
-        # Gera o hash da senha
-        senha_hashed = bcrypt.hashpw(senha.encode('utf-8'), salt)
-        return senha_hashed

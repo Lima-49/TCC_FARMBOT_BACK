@@ -2,12 +2,14 @@ from flask import jsonify
 import pyodbc
 from repository.client_repository import ClienteRepository
 from config import Config
+from models.login_model import Login
 class ClientApp:
     def __init__(self):
         self.config = Config()
         self.connection_string = self.config.connection_string
         self.repo = ClienteRepository(self.connection_string)
-    
+        self.loginModel = Login()
+
     def create_new_client(self, client):
         try:
             self.repo.create_new_client(client)
@@ -82,12 +84,18 @@ class ClientApp:
         except Exception as e:
             return jsonify({'error': 'Erro desconhecido ao deletar cliente.', 'details': str(e)}), 500
         
-    def get_client_by_email(self, client_email):
+    def autentificar_login(self, login_obj):
         try:
-            client = self.repo.get_client_by_email(client_email)
+            client = self.repo.get_client_by_email(login_obj.email)
             
             if client:
-                return jsonify(vars(client)), 200
+                senha_valida = self.loginModel.verificar_senha(login_obj.senha, client.senha_login)
+                
+                if senha_valida:
+                    return jsonify(vars(client)), 200
+                else:
+                    return jsonify({'message': 'E-mail ou senha inválidos'}), 404
+                
             return jsonify({'message': 'Cliente não encontrado!'}), 404
 
         except pyodbc.DatabaseError as db_err:

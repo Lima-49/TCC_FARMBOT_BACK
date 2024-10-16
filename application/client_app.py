@@ -39,9 +39,9 @@ class ClientApp:
             return jsonify({'error': 'Erro desconhecido ao buscar clientes.', 'details': str(e)}), 500
 
 
-    def get_client_by_id(self, client_id):
+    def get_client_by_id(self, id_cliente):
         try:
-            cliente = self.repo.get_client_by_id(client_id)
+            cliente = self.repo.get_client_by_id(id_cliente)
             if cliente:
                 return jsonify(vars(cliente)), 200
             return jsonify({'message': 'Cliente não encontrado!'}), 404
@@ -53,13 +53,13 @@ class ClientApp:
             return jsonify({'error': 'Erro desconhecido ao buscar cliente.', 'details': str(e)}), 500
 
 
-    def update_client_by_id(self, client_id, client):
+    def update_client_by_id(self, id_cliente, client):
         try:
-            cliente_existente = self.repo.get_client_by_id(client_id)
+            cliente_existente = self.repo.get_client_by_id(id_cliente)
             if not cliente_existente:
                 return jsonify({'message': 'Cliente não encontrado!'}), 404
             
-            self.repo.update_client_by_id(client_id, client)
+            self.repo.update_client_by_id(id_cliente, client)
             return jsonify({'message': 'Cliente atualizado com sucesso!'}), 200
 
         except pyodbc.DatabaseError as db_err:
@@ -69,13 +69,13 @@ class ClientApp:
             return jsonify({'error': 'Erro desconhecido ao atualizar cliente.', 'details': str(e)}), 500
 
 
-    def delete_client_by_id(self, client_id):
+    def delete_client_by_id(self, id_cliente):
         try:
-            cliente_existente = self.repo.get_client_by_id(client_id)
+            cliente_existente = self.repo.get_client_by_id(id_cliente)
             if not cliente_existente:
                 return jsonify({'message': 'Cliente não encontrado!'}), 404
             
-            self.repo.delete_client_by_id(client_id)
+            self.repo.delete_client_by_id(id_cliente)
             return jsonify({'message': 'Cliente deletado com sucesso!'}), 200
 
         except pyodbc.DatabaseError as db_err:

@@ -10,14 +10,14 @@ class IClientesApp:
     def get_all_clients(self):
         return self.client_app.get_all_clients()
     
-    def get_client_by_id(self, client_id):
-        return self.client_app.get_client_by_id(client_id)
+    def get_client_by_id(self, id_cliente):
+        return self.client_app.get_client_by_id(id_cliente)
     
-    def update_client_by_id(self, client_id, client):
-        return self.client_app.update_client_by_id(client_id, client)
+    def update_client_by_id(self, id_cliente, client):
+        return self.client_app.update_client_by_id(id_cliente, client)
     
-    def delete_client_by_id(self, client_id):
-        return self.client_app.delete_client_by_id(client_id)
+    def delete_client_by_id(self, id_cliente):
+        return self.client_app.delete_client_by_id(id_cliente)
 
     def autentificar_login(self, login):
         return self.client_app.autentificar_login(login)

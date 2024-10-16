@@ -23,7 +23,7 @@ class ClienteRepository:
             cursor.execute(
                 """
                 SELECT 
-                    CLIENT_ID AS client_id, 
+                    ID_CLIENTE AS id_cliente, 
                     NOME AS nome, 
                     SOBRE_NOME AS sobrenome, 
                     DATA_NASCIMENTO AS data_nascimento, 
@@ -37,7 +37,7 @@ class ClienteRepository:
             clientes = []
             for row in cursor.fetchall():
                 cliente_data = {
-                    'client_id': row[0],
+                    'id_cliente': row[0],
                     'nome': row[1],
                     'sobrenome': row[2],
                     'data_nascimento': row[3].strftime("%d-%m-%Y"),
@@ -49,13 +49,13 @@ class ClienteRepository:
                 clientes.append(cliente_data)
             return clientes
 
-    def get_client_by_id(self, client_id):
+    def get_client_by_id(self, id_cliente):
         with self.connect() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
                     SELECT 
-                        CLIENT_ID AS client_id, 
+                        ID_CLIENTE AS id_cliente, 
                         NOME AS nome, 
                         SOBRE_NOME AS sobrenome, 
                         DATA_NASCIMENTO AS data_nascimento, 
@@ -64,14 +64,14 @@ class ClienteRepository:
                         SENHA_LOGIN AS senha_login 
                     FROM 
                         CLIENTES
-                    WHERE CLIENT_ID = ?
-                """, (client_id,)
+                    WHERE id_cliente = ?
+                """, (id_cliente,)
             )
             
             row = cursor.fetchone()
             if row:
                 cliente_data = {
-                    'client_id': row[0],
+                    'id_cliente': row[0],
                     'nome': row[1],
                     'sobrenome': row[2],
                     'data_nascimento': row[3].strftime("%d-%m-%Y"),
@@ -82,20 +82,20 @@ class ClienteRepository:
                 return Cliente.from_dict(cliente_data)
             return None
 
-    def update_client_by_id(self, client_id, cliente):
+    def update_client_by_id(self, id_cliente, cliente):
         with self.connect() as conn:
             cursor = conn.cursor()
             cursor.execute("""
                 UPDATE CLIENTES
                 SET NOME = ?, SOBRE_NOME = ?, DATA_NASCIMENTO = ?, CPF = ?, EMAIL = ?, SENHA_LOGIN = ?
-                WHERE CLIENT_ID = ?
-            """, (cliente.nome, cliente.sobrenome, cliente.data_nascimento, cliente.cpf, cliente.email, cliente.senha_login, client_id))
+                WHERE id_cliente = ?
+            """, (cliente.nome, cliente.sobrenome, cliente.data_nascimento, cliente.cpf, cliente.email, cliente.senha_login, id_cliente))
             conn.commit()
 
-    def delete_client_by_id(self, client_id):
+    def delete_client_by_id(self, id_cliente):
         with self.connect() as conn:
             cursor = conn.cursor()
-            cursor.execute("DELETE FROM CLIENTES WHERE CLIENT_ID = ?", (client_id,))
+            cursor.execute("DELETE FROM CLIENTES WHERE id_cliente = ?", (id_cliente,))
             conn.commit()
 
     def get_client_by_email(self, client_email):
@@ -104,7 +104,7 @@ class ClienteRepository:
             cursor.execute(
                 """
                     SELECT                         
-                        CLIENT_ID AS client_id, 
+                        ID_CLIENTE AS id_cliente, 
                         NOME AS nome, 
                         SOBRE_NOME AS sobrenome, 
                         DATA_NASCIMENTO AS data_nascimento, 
@@ -117,7 +117,7 @@ class ClienteRepository:
             row = cursor.fetchone()
             if row:
                 cliente_data = {
-                    'client_id': row[0],
+                    'id_cliente': row[0],
                     'nome': row[1],
                     'sobrenome': row[2],
                     'data_nascimento': row[3].strftime("%d-%m-%Y"),

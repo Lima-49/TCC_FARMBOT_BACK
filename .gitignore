@@ -2,3 +2,6 @@ venv
 *.ipynb
 config.py
 farmbot_credentials.json
+dockerfile
+*yaml
+*pyc

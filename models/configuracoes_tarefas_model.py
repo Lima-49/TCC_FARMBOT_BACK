@@ -21,7 +21,7 @@ class ConfiguracaoTarefaModel:
             tipo_tarefa = data.get('tipo_tarefa'),
             produto_descr = data.get('produto_descr'),
             fornecedor_descr = data.get('fornecedor_descr'),
-            qtd_minima = data.get('qtd_minima'),
+            qtd_minima = int(data.get('qtd_minima')),
             oferta_descr = data.get('oferta_descr'),
             fl_ativo = data.get('fl_ativo'),
             fl_execucao = data.get('fl_execucao')

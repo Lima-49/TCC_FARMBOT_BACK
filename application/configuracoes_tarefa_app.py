@@ -2,12 +2,17 @@ from flask import jsonify
 import pyodbc
 from config import Config
 from repository.configuracoes_tarefa_repository import ConfiguracoesTarefasRepository
+from repository.client_arquivos_repository import ClientDadosRepository
+from application.client_arquivos_app import ClientesArquivos
+import pandas as pd
 
 class ConfiguracoesTarefaApp:
     def __init__(self):
         self.config = Config()
         self.connection_string = self.config.connection_string
+        self.repo_arquivos = ClientDadosRepository(self.connection_string)
         self.repo = ConfiguracoesTarefasRepository(self.connection_string)
+        self.app_arquivos = ClientesArquivos()
         
     def add_new_file(self, config_tarefa):
         try:
@@ -38,4 +43,21 @@ class ConfiguracoesTarefaApp:
 
         except Exception as e:
             return jsonify({'message': 'Ocorreu um erro desconhecido ao obter os arquivos do cliente', 'details': str(e)}), 500
+    
+    def obtendo_lista_de_fornecedores(self, id_cliente, tipo_arquivo, coluna_lista):
+    
+        try:
+            data = self.repo_arquivos.get_client_files(id_cliente)
+            
+            df = pd.DataFrame(data)
+            df_filt = df[df['tipo_arquivo']==tipo_arquivo]
+            
+            blob_name = str(id_cliente) + "/" + str(df_filt['nome_arquivo'].iloc[0])
+            df = self.app_arquivos.download_file_from_gcp(blob_name)
+
+            return jsonify(df[coluna_lista].drop_duplicates().tolist()), 200
+
+        except Exception as e:
+            return jsonify({'message': 'Ocorreu um erro', 'details': str(e)}), 500
+
         

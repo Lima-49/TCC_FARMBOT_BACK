@@ -3,6 +3,7 @@ import pyodbc
 from repository.client_arquivos_repository import ClientDadosRepository
 from config import Config
 from google.cloud import storage
+import pandas as pd
 
 class ClientesArquivos:
     def __init__(self):
@@ -93,7 +94,17 @@ class ClientesArquivos:
         blob = bucket.blob(file_name)
         blob.upload_from_file(file)
         return blob.public_url.replace("googleapis", "cloud.google")
-
+    
+    def download_file_from_gcp(self, blob_name):
+        storage_client = storage.Client.from_service_account_json(self.config.credentials_path)
+        bucket = storage_client.bucket(self.bucket_name)
+        blob = bucket.blob(blob_name)
+        
+        data_file = blob.download_as_bytes()
+        df = pd.read_excel(data_file)
+        
+        return df
+            
     def add_file_from_request(self, client_id, file):
         
         if file.filename == '':

@@ -13,9 +13,9 @@ class ClientDadosRepository:
             cursor = conn.cursor()
             cursor.execute(
                 """
-                INSERT INTO CLIENTES_ARQUIVOS (ID_CLIENTE, DESCRICAO_ARQUIVO, URL_BUCKET, NOME_ARQUIVO)
-                VALUES (?, ?, ?, ?)
-                """, (client_data.id_cliente, client_data.descricao_arquivo, client_data.url_bucket, client_data.nome_arquivo)
+                INSERT INTO CLIENTES_ARQUIVOS (ID_CLIENTE, TIPO_ARQUIVO, DESCRICAO_ARQUIVO, URL_BUCKET, NOME_ARQUIVO)
+                VALUES (?, ?, ?, ?, ?)
+                """, (client_data.id_cliente, client_data.tipo_arquivo, client_data.descricao_arquivo, client_data.url_bucket, client_data.nome_arquivo)
             )
             conn.commit()
             
@@ -27,6 +27,7 @@ class ClientDadosRepository:
                 SELECT 
                     ID_ARQUIVO AS id_arquivo,
                     ID_CLIENTE AS id_cliente,
+                    TIPO_ARQUIVO AS tipo_arquivo,
                     DESCRICAO_ARQUIVO AS descricao_arquivo,
                     URL_BUCKET AS url_bucket,
                     NOME_ARQUIVO AS nome_arquivo
@@ -43,9 +44,10 @@ class ClientDadosRepository:
                 client_data = {
                     'id_arquivo': row[0],
                     'id_cliente': row[1],
-                    'descricao_arquivo': row[2],
-                    'url_bucket': row[3],
-                    'nome_arquivo': row[4]
+                    'tipo_arquivo': row[2],
+                    'descricao_arquivo': row[3],
+                    'url_bucket': row[4],
+                    'nome_arquivo': row[5]
                 }
                 
                 #clientes_arquivos = ClientesDados.from_dict(client_data)
@@ -61,6 +63,7 @@ class ClientDadosRepository:
                 SELECT 
                     ID_ARQUIVO AS id_arquivo,
                     ID_CLIENTE AS id_cliente,
+                    TIPO_ARQUIVO AS tipo_arquivo,
                     DESCRICAO_ARQUIVO AS descricao_arquivo,
                     URL_BUCKET AS url_bucket,
                     NOME_ARQUIVO AS nome_arquivo

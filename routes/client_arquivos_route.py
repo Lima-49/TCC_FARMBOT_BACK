@@ -9,7 +9,7 @@ client_arquivos_bp = Blueprint('client_arquivos', __name__)
 @client_arquivos_bp.route('/files', methods=['POST'])
 def add_new_file():
     data = request.json
-    client_arquivos = ClientesDados(data['id_cliente'], data['descricao_arquivo'], data['url_bucket'], data['nome_arquivo'])
+    client_arquivos = ClientesDados(data['id_cliente'], data['tipo_arquivo'], data['descricao_arquivo'], data['url_bucket'], data['nome_arquivo'])
     result = icliente_arquivos.add_new_file(client_arquivos)
     return result
 

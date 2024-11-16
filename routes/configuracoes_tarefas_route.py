@@ -20,4 +20,9 @@ def add_new_config_job():
 @config_tarefa_bp.route('/configuracao-tarefa/<int:client_id>', methods=['GET'])
 def get_config_jobs(client_id):
     result = iconfig_tarefa.get_config_jobs(client_id)
-    return result   
+    return result  
+
+@config_tarefa_bp.route("/configuracao-tarefa/lista-fornecedores/<int:client_id>/<int:tipo_arquivo>/<string:coluna_lista>", methods=['GET'])
+def obtendo_lista_de_fornecedores(client_id, tipo_arquivo, coluna_lista):
+    result = iconfig_tarefa.obtendo_lista_de_fornecedores(client_id, tipo_arquivo,coluna_lista)
+    return result

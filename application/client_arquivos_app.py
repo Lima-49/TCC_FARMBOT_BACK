@@ -119,3 +119,19 @@ class ClientesArquivos:
                 return jsonify({'error': 'Erro ao fazer o upload', 'details': str(e)}), 500
         else:
             return jsonify({'error': 'Formato de arquivo não suportado. Envie um CSV ou Excel'}), 400
+        
+    def return_file_as_json(self, client_id, tipo_arquivo):
+        try:
+            data = self.repo.get_client_files(client_id)
+            
+            df = pd.DataFrame(data)
+            df_filt = df[df['tipo_arquivo']==tipo_arquivo]
+            
+            blob_name = str(client_id) + "/" + str(df_filt['nome_arquivo'].iloc[0])
+            df_client = self.download_file_from_gcp(blob_name)
+
+            dict_df = {col: df_client[col].tolist() for col in df_client.columns}
+
+            return jsonify(dict_df), 200
+        except Exception as e:
+            return jsonify({'message': 'Ocorreu um erro', 'details': str(e)}), 500

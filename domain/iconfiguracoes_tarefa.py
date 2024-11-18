@@ -10,5 +10,5 @@ class IConfiguracoesTarefasApp:
     def get_config_jobs(self, client_id):
         return self.configuracoes_tarefas.get_config_jobs(client_id)
     
-    def obtendo_lista_de_fornecedores(self, id_cliente, tipo_arquivo, coluna_lista):
-        return self.configuracoes_tarefas.obtendo_lista_de_fornecedores(id_cliente, tipo_arquivo, coluna_lista)
+    def obtendo_lista(self, id_cliente, tipo_arquivo, coluna_lista):
+        return self.configuracoes_tarefas.obtendo_lista(id_cliente, tipo_arquivo, coluna_lista)

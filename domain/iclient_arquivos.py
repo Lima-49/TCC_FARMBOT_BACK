@@ -21,3 +21,6 @@ class IClientesArquivosApp:
     
     def add_file_from_request(self, client_id, file):
         return self.client_arquivos.add_file_from_request(client_id, file)
+    
+    def return_file_as_json(self, client_id, tipo_arquivo):
+        return self.client_arquivos.return_file_as_json(client_id, tipo_arquivo)

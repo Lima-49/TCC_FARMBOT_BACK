@@ -44,7 +44,7 @@ class ConfiguracoesTarefaApp:
         except Exception as e:
             return jsonify({'message': 'Ocorreu um erro desconhecido ao obter os arquivos do cliente', 'details': str(e)}), 500
     
-    def obtendo_lista_de_fornecedores(self, id_cliente, tipo_arquivo, coluna_lista):
+    def obtendo_lista(self, id_cliente, tipo_arquivo, coluna_lista):
     
         try:
             data = self.repo_arquivos.get_client_files(id_cliente)

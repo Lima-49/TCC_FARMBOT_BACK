@@ -45,4 +45,7 @@ def upload_file(client_id):
     result = icliente_arquivos.add_file_from_request(client_id, file)
     return result
     
-    
+@client_arquivos_bp.route('/files/download_file/<int:client_id>/<int:tipo_arquivo>', methods=['GET'])
+def return_file_as_json(client_id, tipo_arquivo):
+    result = icliente_arquivos.return_file_as_json(client_id, tipo_arquivo)
+    return result
